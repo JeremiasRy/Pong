@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32126.317
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pong", "Pong\Pong.csproj", "{0F882403-4BF2-4746-9BC8-0D4D8B66CD7D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{451E24A4-DBD7-4B3C-B9A6-63B79C31EA46} = {451E24A4-DBD7-4B3C-B9A6-63B79C31EA46}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PongLibrary", "PongLibrary\PongLibrary.csproj", "{451E24A4-DBD7-4B3C-B9A6-63B79C31EA46}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F882403-4BF2-4746-9BC8-0D4D8B66CD7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F882403-4BF2-4746-9BC8-0D4D8B66CD7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F882403-4BF2-4746-9BC8-0D4D8B66CD7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F882403-4BF2-4746-9BC8-0D4D8B66CD7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{451E24A4-DBD7-4B3C-B9A6-63B79C31EA46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{451E24A4-DBD7-4B3C-B9A6-63B79C31EA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{451E24A4-DBD7-4B3C-B9A6-63B79C31EA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{451E24A4-DBD7-4B3C-B9A6-63B79C31EA46}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B4EA1C5C-DD80-4FDB-930B-991DA293D523}
+	EndGlobalSection
+EndGlobal

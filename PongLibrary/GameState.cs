@@ -1,48 +1,89 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PongLibrary.GameObjects;
 
 namespace PongLibrary;
 
 public static class GameState
 {
-    public static Paddle Human = new (true);
+    static readonly Paddle _human = new(true);
+    static readonly Paddle _computer = new(false);
+    static readonly Ball _ball = new();
+    static readonly Net _net = new();
 
-    public static Paddle Computer = new(false);
+    static int _ballStartY = _ball.Y;
+    static int _ballEndY = -1;
 
-    static int ballStartPosY;
-    static int ballEndPosY;
+    static bool Right = true;
 
     static Random random = new Random();
+
+    public static void CallDraws()
+    {
+        _net.Draw();
+        _human.Draw();
+        _computer.Draw();
+        _ball.Draw();
+    }
 
     public static void MovePlayer(bool up)
     {
         if (up)
         {
-            Human.Y--;
-        } else
+            _human.Y--;
+        }
+        else
         {
-            Human.Y++;
+            _human.Y++;
         }
     }
 
     public static void MoveComputer()
     {
-        Computer.Y = Ball.Y;
+        _computer.Y = _ball.Y;
     }
     public static void BallPoints()
     {
-        ballStartPosY = Ball.Y;
-        ballEndPosY = random.Next(0, 49);
+        _ballStartY = _ball.Y;
+        _ballEndY = random.Next(0, 49);
     }
 
     public static int CalculateBallPositionY()
     {
-        int difference = Math.Abs(ballStartPosY - ballEndPosY);
+        bool lower = _ballStartY - _ballEndY < 0;
+        int difference = lower ? _ballEndY - _ballStartY : _ballStartY - _ballEndY; 
         int xdistance = 196;
 
-        return difference * (Ball.X - (Ball._right ? 2 : 196)) / xdistance + ballStartPosY;
+        return difference * (_ball.X - (Right ? 2 : 196)) / xdistance + _ballStartY;
+    }
+
+    public static void MoveBall()
+    {
+        if (Right)
+        {
+            if (_ball.X + 2 >= 196)
+            {
+                _ball.X = 196;
+                BallPoints();
+                Right = false;
+            }
+            else
+            {
+                _ball.X += 2;
+                _ball.Y = CalculateBallPositionY();
+            }
+        }
+        else
+        {
+            if (_ball.X - 2 <= 2)
+            {
+                _ball.X = 2;
+                BallPoints();
+                Right = true;
+            }
+            else
+            {
+                _ball.X -= 2;
+                _ball.Y = CalculateBallPositionY();
+            }
+        }
     }
 }

@@ -10,7 +10,7 @@ public static class GameState
     static readonly Net _net = new();
 
     static int _ballStartY = _ball.Y;
-    static int _ballEndY = -1;
+    static int _ballEndY;
 
     static bool Right = true;
 
@@ -50,7 +50,7 @@ public static class GameState
     {
         bool lower = _ballStartY - _ballEndY < 0;
         int difference = lower ? _ballEndY - _ballStartY : _ballStartY - _ballEndY; 
-        int xdistance = 196;
+        int xdistance = 194;
 
         return difference * (_ball.X - (Right ? 2 : 196)) / xdistance + _ballStartY;
     }
@@ -67,8 +67,16 @@ public static class GameState
             }
             else
             {
-                _ball.X += 2;
-                _ball.Y = CalculateBallPositionY();
+                if (CalculateBallPositionY() < 0 || CalculateBallPositionY() >= 49)
+                {
+                    BallPoints();
+                    _ball.X += 2;
+                    _ball.Y = CalculateBallPositionY();
+                } else
+                {
+                    _ball.X += 2;
+                    _ball.Y = CalculateBallPositionY();
+                }
             }
         }
         else
@@ -81,8 +89,16 @@ public static class GameState
             }
             else
             {
-                _ball.X -= 2;
-                _ball.Y = CalculateBallPositionY();
+                if (CalculateBallPositionY() < 0 || CalculateBallPositionY() >= 49)
+                {
+                    BallPoints();
+                    _ball.X -= 2;
+                    _ball.Y = CalculateBallPositionY();
+                } else
+                {
+                    _ball.X -= 2;
+                    _ball.Y = CalculateBallPositionY();
+                }
             }
         }
     }

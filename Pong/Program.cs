@@ -7,7 +7,6 @@ if (!OperatingSystem.IsWindows())
 }
 System.Timers.Timer _timer = new System.Timers.Timer();
 
-
 Console.CursorVisible = false;
 Console.WindowHeight = 50;
 Console.WindowWidth = 200;
@@ -43,7 +42,7 @@ void OnTimedEvent(Object? source, System.Timers.ElapsedEventArgs e)
 
 void SetTimer()
 {
-    _timer.Interval = 60;
+    _timer.Interval = 50;
     _timer.Elapsed += OnTimedEvent;
     _timer.Enabled = true;  
     _timer.AutoReset = true;    

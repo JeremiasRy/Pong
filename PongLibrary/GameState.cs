@@ -4,12 +4,13 @@ namespace PongLibrary;
 
 public static class GameState
 {
-    static readonly Paddle _human = new(true);
-    static readonly Paddle _computer = new(false);
+    public static readonly Paddle _human = new(true);
+    public static readonly Paddle _computer = new(false);
     static readonly Ball _ball = new();
     static readonly Net _net = new();
     static readonly BallTrail _ballTrail = new();
     static readonly Random _random = new();
+    static readonly ScoreBoard _scoreBoard = new();
 
     static int _ballLeftY;
     static int _ballRightY;
@@ -22,6 +23,7 @@ public static class GameState
     public static void CallDraws()
     {
         _net.Draw();
+        _scoreBoard.Draw();
         _human.Draw();
         _computer.Draw();
         _ball.Draw();

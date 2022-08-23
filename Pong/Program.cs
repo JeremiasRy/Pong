@@ -10,18 +10,33 @@ System.Timers.Timer _timer = new System.Timers.Timer();
 Console.CursorVisible = false;
 Console.WindowHeight = 50;
 Console.WindowWidth = 200;
+
+Console.Write("Press any key to start!!!!");
+Console.ReadKey();
+Running = true;
+
 Initialize();
 BallPoints();
+CalculateBallPositions();
 CallDraws();
 
-SetTimer();
-PlayerInput();
+var playerInput = new Task(PlayerInput);
+var runGame = new Task(RunGame);
+
+runGame.Start();
+playerInput.Start();
+
+var tasks = new[] { playerInput, runGame };
+
+Task.WaitAll(tasks);
 
 void PlayerInput()
 {
-    do
+    ConsoleKeyInfo key = new();
+    while (!Console.KeyAvailable && key.Key != ConsoleKey.Escape)
     {
-        switch (Console.ReadKey().Key)
+        key = Console.ReadKey(true);
+        switch (key.Key)
         {
             case ConsoleKey.UpArrow:
                 MovePlayer(true);
@@ -29,23 +44,21 @@ void PlayerInput()
             case ConsoleKey.DownArrow:
                 MovePlayer(false);
                 break;
+            case ConsoleKey.Escape:
+                Running = false;
+                break;
         }
-    } while (!Console.ReadKey().Key.Equals(ConsoleKey.Escape));
+    }
 }
 
-void OnTimedEvent(Object? source, System.Timers.ElapsedEventArgs e)
+void RunGame()
 {
-    MoveBall();
-    CallDraws();
-    DrawScreen();
+    while (Running)
+    {
+        Thread.Sleep(20);
+        MoveBall();
+        CallDraws();
+        DrawScreen();
+    }
 }
 
-void SetTimer()
-{
-    _timer.Interval = 50;
-    _timer.Elapsed += OnTimedEvent;
-    _timer.Enabled = true;  
-    _timer.AutoReset = true;    
-}
-
-Console.ReadKey();

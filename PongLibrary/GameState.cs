@@ -8,31 +8,35 @@ public static class GameState
     static readonly Paddle _computer = new(false);
     static readonly Ball _ball = new();
     static readonly Net _net = new();
+    static readonly BallTrail _ballTrail = new();
+    static readonly Random _random = new();
 
-    static int _ballStartY = _ball.Y;
-    static int _ballEndY;
+    static int _ballLeftY;
+    static int _ballRightY;
 
-    static bool Right = true;
+    public readonly static Dictionary<int, int> AllThePos = new();
 
-    static Random random = new Random();
-
+    public static bool Running = false;
+    public static int Speed = 2;
+    public static bool Right = true;
     public static void CallDraws()
     {
         _net.Draw();
         _human.Draw();
         _computer.Draw();
         _ball.Draw();
+        _ballTrail.Draw();
     }
 
     public static void MovePlayer(bool up)
     {
         if (up)
         {
-            _human.Y--;
+            _human.Y -= 2;
         }
         else
         {
-            _human.Y++;
+            _human.Y += 2;
         }
     }
 
@@ -42,63 +46,69 @@ public static class GameState
     }
     public static void BallPoints()
     {
-        _ballStartY = _ball.Y;
-        _ballEndY = random.Next(0, 49);
+        if (Right)
+        {
+            _ballLeftY = _ball.Y;
+            _ballRightY = _random.Next(0,49);
+            Speed = _random.Next(1, 4);
+        } else
+        {
+            _ballRightY = _ball.Y;
+            _ballLeftY = _random.Next(0, 49);
+            Speed = _random.Next(1, 4);
+        }
     }
 
-    public static int CalculateBallPositionY()
+    public static void CalculateBallPositions()
     {
-        bool lower = _ballStartY - _ballEndY < 0;
-        int difference = lower ? _ballEndY - _ballStartY : _ballStartY - _ballEndY; 
-        int xdistance = 194;
-
-        return difference * (_ball.X - (Right ? 2 : 196)) / xdistance + _ballStartY;
+        bool lower = _ballLeftY - _ballRightY < 0;
+        int difference = lower ? _ballRightY - _ballLeftY : _ballLeftY - _ballRightY;
+        for (int x = 2; x <= 196; x++)
+        {
+            int y = difference * (x - 2) / 194 + _ballLeftY;
+            if (!lower)
+            {
+                int yDif = y - _ballLeftY;
+                y = _ballLeftY - yDif;
+            }
+            AllThePos[x] = y;
+        }
     }
 
     public static void MoveBall()
     {
         if (Right)
         {
-            if (_ball.X + 2 >= 196)
+            if (_ball.X + Speed >= 196)
             {
                 _ball.X = 196;
-                BallPoints();
+                _ball.Y = AllThePos[_ball.X];
                 Right = false;
-            }
-            else
+                BallPoints();
+                CalculateBallPositions();
+            } else
             {
-                if (CalculateBallPositionY() < 0 || CalculateBallPositionY() >= 49)
-                {
-                    BallPoints();
-                    _ball.X += 2;
-                    _ball.Y = CalculateBallPositionY();
-                } else
-                {
-                    _ball.X += 2;
-                    _ball.Y = CalculateBallPositionY();
-                }
+                _ball.X += Speed;
+                _ball.Y = AllThePos[_ball.X];
+                _ballTrail.X = _ball.X -  Speed;
+                _ballTrail.Y = AllThePos[_ballTrail.X];
             }
         }
         else
         {
-            if (_ball.X - 2 <= 2)
+            if(_ball.X - Speed <= 2)
             {
                 _ball.X = 2;
-                BallPoints();
+                _ball.Y = AllThePos[_ball.X];
                 Right = true;
-            }
-            else
+                BallPoints();
+                CalculateBallPositions();
+            } else
             {
-                if (CalculateBallPositionY() < 0 || CalculateBallPositionY() >= 49)
-                {
-                    BallPoints();
-                    _ball.X -= 2;
-                    _ball.Y = CalculateBallPositionY();
-                } else
-                {
-                    _ball.X -= 2;
-                    _ball.Y = CalculateBallPositionY();
-                }
+                _ball.X -= Speed;
+                _ball.Y = AllThePos[_ball.X];
+                _ballTrail.X = _ball.X + Speed;
+                _ballTrail.Y = AllThePos[_ballTrail.X];
             }
         }
     }

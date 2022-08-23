@@ -13,18 +13,20 @@ public class Paddle : IGameObject
     public int X { get; set; }
 
     public int Score { get; set; } = 0;
+    public List<int> Positions { get {
+            int topY = Y - 4;
+            int[] _positions = new int[7];
+            for (int i = 0; i < 7; i++)
+            {
+                _positions[i] = topY + i;
+            }
+            return _positions.ToList();
+        }}
 
     public void Draw()
     {
-        int topY = Y - 4;
-        int[] _positions = new int[7];
-        for (int i = 0; i < 7; i++)
-        {
-            _positions[i] = topY + i;
-        }
-        foreach (int yPos in _positions)
+        foreach (int yPos in Positions)
             ScreenBuffer.Draw('\u2588', yPos, X);
-
     }
 
     public Paddle(bool human)

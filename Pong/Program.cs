@@ -13,7 +13,7 @@ Console.WindowWidth = 200;
 
 Console.Write("Press any key to start!!!!");
 Console.ReadKey();
-Running = true;
+BallInPlay = true;
 
 Initialize();
 BallPoints();
@@ -45,7 +45,14 @@ void PlayerInput()
                 MovePlayer(false);
                 break;
             case ConsoleKey.Escape:
-                Running = false;
+                return;
+            case ConsoleKey.Spacebar:
+                if (!BallInPlay)
+                {
+                    BallPoints();
+                    CalculateBallPositions();
+                    BallInPlay = true;
+                }
                 break;
         }
     }
@@ -53,12 +60,22 @@ void PlayerInput()
 
 void RunGame()
 {
-    while (Running)
+    while (Computer.Score < 9)
     {
-        Thread.Sleep(20);
-        MoveBall();
-        CallDraws();
-        DrawScreen();
+        if (BallInPlay)
+        {
+            Thread.Sleep(20);
+            MoveBall();
+            MoveComputer();
+            CallDraws();
+            DrawScreen();
+        }
+        else
+        {
+            Thread.Sleep(20);
+            CallDraws();
+            DrawScreen();
+        }
     }
 }
 

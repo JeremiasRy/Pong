@@ -20,16 +20,14 @@ public class ScoreBoard : IGameObject
             for (int x = 0; x < 3; x++)
             {
                 int[] pos = new int[2] { y, x };
-                if (!numbers[GameState._human.Score].Where(x => x[0] == pos[0] && x[1] == pos[1]).Any())
+                if (!numbers[GameState.Human.Score].Where(x => x[0] == pos[0] && x[1] == pos[1]).Any())
                 {
                     ScreenBuffer.Draw(_block, Y + y, X + x);
                 }
-                if (!numbers[GameState._computer.Score].Where(x => x[0] == pos[0] && x[1] == pos[1]).Any())
+                if (!numbers[GameState.Computer.Score].Where(x => x[0] == pos[0] && x[1] == pos[1]).Any())
                 {
                     ScreenBuffer.Draw(_block, Y + y, X * 3 + x);
                 }
-                
-                
             }
         }
     }
@@ -86,12 +84,9 @@ public class ScoreBoard : IGameObject
     };
     readonly List<int[]> six = new List<int[]>()
     {
-        new int[2] {0,1},
         new int[2] {1,1},
+        new int[2] {1,2},
         new int[2] {3,1},
-        new int[2] {4,1},
-        new int[2] {3,0},
-        new int[2] {4,0},
     };
     readonly List<int[]> seven = new List<int[]>()
     {

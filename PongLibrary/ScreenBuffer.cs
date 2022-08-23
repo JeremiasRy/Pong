@@ -20,6 +20,15 @@ public static class ScreenBuffer
     {
         _screenBufferArray[y][x] = block;
     }
+    public static void DrawText(string text, int y, int x)
+    {
+        char[] chars = text.ToCharArray();
+        for (int i = 0; i < chars.Length; i++)
+        {
+            _screenBufferArray[y][x + i] = chars[i];
+        }
+
+    }
 
     public static void DrawScreen()
     {
